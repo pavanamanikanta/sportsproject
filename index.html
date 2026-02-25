@@ -5,225 +5,63 @@
 <title>Advintek Premier League</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
 body{background:#0b1120;color:white;scroll-behavior:smooth;}
-nav{
-position:fixed;width:100%;display:flex;justify-content:space-between;
-align-items:center;padding:20px 80px;background:rgba(0,0,0,.6);
-backdrop-filter:blur(10px);z-index:1000;
-}
+nav{position:fixed;width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 80px;background:rgba(0,0,0,.6);backdrop-filter:blur(10px);z-index:1000;}
 nav h2{color:#38bdf8;}
 nav ul{display:flex;list-style:none;}
 nav ul li{margin-left:30px;cursor:pointer;}
 nav ul li:hover{color:#38bdf8;}
-
-.hero{
-height:100vh;
-background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),
-url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e');
-background-size:cover;background-position:center;
-display:flex;flex-direction:column;justify-content:center;
-align-items:center;text-align:center;
-}
+.hero{height:100vh;background:linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)),url('https://images.unsplash.com/photo-1540747913346-19e32dc3e97e');background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;}
 .hero h1{font-size:60px;}
 .hero p{margin:20px 0;color:#cbd5e1;font-size:20px;}
-.btn{padding:12px 30px;background:#38bdf8;border:none;cursor:pointer;font-weight:bold;}
+
+/* BUTTON ANIMATIONS */
+.btn{padding:12px 30px;background:#38bdf8;border:none;cursor:pointer;font-weight:bold;transition: all 0.3s ease;}
+.btn:hover{transform:translateY(-3px) scale(1.05);box-shadow:0 8px 20px rgba(56,189,248,0.5);}
+.btn:active{transform:translateY(1px) scale(0.98);box-shadow:0 4px 10px rgba(56,189,248,0.3);}
 
 .section{padding:100px 80px;}
 .section h2{color:#38bdf8;margin-bottom:40px;font-size:32px;}
-
 .teams{display:flex;gap:40px;}
-.team-card{
-flex:1;background:#111827;padding:30px;border-radius:15px;
-text-align:center;transition:.3s;
-}
-.team-card:hover{transform:translateY(-10px);box-shadow:0 10px 30px rgba(0,0,0,.5);}
-
-.players{
-display:grid;grid-template-columns:repeat(2,1fr);
-gap:15px;margin-top:20px;
-}
-.player{
-background:#1e293b;padding:15px;border-radius:12px;
-text-align:center;position:relative;transition:.3s;
-}
-.player:hover{transform:translateY(-5px);background:#334155;}
-.player img{
-width:90px;height:90px;border-radius:50%;
-border:3px solid #38bdf8;margin-bottom:10px;object-fit:cover;
-}
-.captain{
-position:absolute;top:8px;right:8px;background:gold;
-color:black;padding:3px 8px;font-size:12px;
-border-radius:20px;font-weight:bold;
-}
-.delete-btn{
-margin-top:5px;background:#ef4444;color:white;
-padding:5px 10px;font-size:12px;border:none;cursor:pointer;
-}
-
+.team-card{flex:1;background:#111827;padding:30px;border-radius:15px;text-align:center;transition:transform 0.3s ease, box-shadow 0.3s ease;}
+.team-card:hover{transform:translateY(-10px) scale(1.02);box-shadow:0 12px 40px rgba(0,0,0,0.6);}
+.players{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin-top:20px;}
+.player{background:#1e293b;padding:15px;border-radius:12px;text-align:center;position:relative;transition:transform 0.3s ease, background 0.3s ease;}
+.player:hover{transform:translateY(-5px) scale(1.03);background:#334155;}
+.player img{width:90px;height:90px;border-radius:50%;border:3px solid #38bdf8;margin-bottom:10px;object-fit:cover;}
+.captain{position:absolute;top:8px;right:8px;background:gold;color:black;padding:3px 8px;font-size:12px;border-radius:20px;font-weight:bold;}
+.delete-btn{margin-top:5px;background:#ef4444;color:white;padding:5px 10px;font-size:12px;border:none;cursor:pointer;}
 .card{background:#111827;padding:30px;border-radius:15px;margin-bottom:30px;}
 table{width:100%;border-collapse:collapse;}
 th,td{padding:12px;text-align:center;}
 th{background:#38bdf8;color:black;}
 tr:nth-child(even){background:#1e293b;}
-
+tr:hover{background:#2563eb;color:white;transition:background 0.3s ease, color 0.3s ease;}
 footer{background:#111827;text-align:center;padding:30px;color:#94a3b8;}
-
-#loginModal{
-position:fixed;top:0;left:0;width:100%;height:100%;
-background:rgba(0,0,0,.8);display:none;
-justify-content:center;align-items:center;
-}
-.modal-content{background:#1e293b;padding:40px;border-radius:10px;text-align:center;}
+#loginModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);display:none;justify-content:center;align-items:center;opacity:0;transition:opacity 0.4s ease;}
+#loginModal.show{display:flex;opacity:1;}
+.modal-content{background:#1e293b;padding:40px;border-radius:10px;text-align:center;transform:scale(0.8);transition:transform 0.4s ease;}
+#loginModal.show .modal-content{transform:scale(1);}
 input,select{padding:10px;margin:10px;}
-
-.form-grid{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:40px;
-margin:20px 0;
-}
-
-.team-form{
-background:#1e293b;
-padding:20px;
-border-radius:12px;
-}
-
-.team-form h4{
-margin-bottom:15px;
-color:#38bdf8;
-}
-
-.team-form label{
-display:block;
-margin-top:10px;
-font-size:14px;
-color:#cbd5e1;
-}
-
-.team-form input{
-width:100%;
-padding:10px;
-margin-top:5px;
-border:none;
-border-radius:6px;
-}
-
-.team-toggle{
-display:flex;
-gap:15px;
-margin:15px 0;
-}
-
-.team-btn{
-flex:1;
-padding:12px;
-border:none;
-border-radius:30px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-transition:all .3s ease;
-font-weight:bold;
-}
-
-.team-btn:hover{
-transform:translateY(-3px);
-box-shadow:0 5px 15px rgba(0,0,0,.4);
-}
-
-.team-btn.active{
-background:#38bdf8;
-color:black;
-box-shadow:0 0 15px #38bdf8;
-}
-
-.sport-toggle{
-display:flex;
-gap:20px;
-margin:20px 0;
-}
-
-.sport-btn{
-flex:1;
-padding:12px;
-border:none;
-border-radius:30px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:all .3s ease;
-}
-
-.sport-btn:hover{
-transform:translateY(-3px);
-box-shadow:0 5px 15px rgba(0,0,0,.4);
-}
-
-.sport-btn{
-flex:1;
-padding:12px;
-border:none;
-border-radius:30px;
-background:#1e293b;
-color:white;
-cursor:pointer;
-font-weight:bold;
-transition:all .3s ease;
-border:2px solid #2563eb;
-}
-
-.sport-btn:hover{
-transform:translateY(-3px);
-box-shadow:0 5px 15px rgba(37,99,235,.4);
-}
-
-.sport-btn.active{
-background:linear-gradient(45deg,#2563eb,#38bdf8);
-color:white;
-box-shadow:0 0 20px #38bdf8;
-}
-.sport-main-toggle{
-display:flex;
-justify-content:center;
-gap:40px;
-margin-top:20px;
-}
-
-.main-btn{
-padding:18px 40px;
-font-size:18px;
-border:none;
-border-radius:40px;
-cursor:pointer;
-background:#1e293b;
-color:white;
-transition:all .3s ease;
-font-weight:bold;
-border:2px solid #2563eb;
-}
-
-.main-btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #2563eb;
-}
-
-.main-btn.active{
-background:linear-gradient(45deg,#2563eb,#38bdf8);
-box-shadow:0 0 25px #38bdf8;
-}
-.sport-section{
-transition: all 0.4s ease;
-}
-
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin:20px 0;}
+.team-form{background:#1e293b;padding:20px;border-radius:12px;}
+.team-form h4{margin-bottom:15px;color:#38bdf8;}
+.team-form label{display:block;margin-top:10px;font-size:14px;color:#cbd5e1;}
+.team-form input{width:100%;padding:10px;margin-top:5px;border:none;border-radius:6px;}
+.team-toggle{display:flex;gap:15px;margin:15px 0;}
+.team-btn{flex:1;padding:12px;border:none;border-radius:30px;background:#1e293b;color:white;cursor:pointer;transition:all .3s ease;font-weight:bold;}
+.team-btn:hover{transform:translateY(-3px);box-shadow:0 5px 15px rgba(0,0,0,.4);}
+.team-btn.active{background:#38bdf8;color:black;box-shadow:0 0 15px #38bdf8;}
+.sport-main-toggle{display:flex;justify-content:center;gap:40px;margin-top:20px;}
+.main-btn{padding:18px 40px;font-size:18px;border:none;border-radius:40px;cursor:pointer;background:#1e293b;color:white;transition:all .3s ease;font-weight:bold;border:2px solid #2563eb;}
+.main-btn:hover{transform:scale(1.05);box-shadow:0 0 20px #2563eb;}
+.main-btn.active{background:linear-gradient(45deg,#2563eb,#38bdf8);box-shadow:0 0 25px #38bdf8;}
+.sport-section{opacity:0;transform:translateY(20px);transition:opacity 0.5s ease, transform 0.5s ease;}
+.sport-section.active{opacity:1;transform:translateY(0);}
 </style>
 </head>
-
 <body>
 
 <nav>
@@ -244,168 +82,114 @@ transition: all 0.4s ease;
 
 <div class="section" style="text-align:center;padding-top:120px;">
 <h2>Select Game Type</h2>
-
 <div class="sport-main-toggle">
 <button class="main-btn active" onclick="switchGame('cricket',this)">🏏 Cricket</button>
 <button class="main-btn" onclick="switchGame('volleyball',this)">🏐 Volleyball</button>
 </div>
-
+<input type="hidden" id="viewSport" value="cricket">
 </div>
 
 <!-- TEAMS -->
-<!-- CRICKET TEAMS -->
 <div class="section sport-section" id="cricketTeams">
-
 <h2>🏏 Cricket Teams & Players</h2>
-
 <div class="teams">
 <div class="team-card">
 <h3>Warriors</h3>
-<div class="players" id="warriorsPlayers"></div>
+<div class="players" id="cricketWarriors"></div>
 </div>
-
 <div class="team-card">
 <h3>Titans</h3>
-<div class="players" id="titansPlayers"></div>
+<div class="players" id="cricketTitans"></div>
+</div>
 </div>
 </div>
 
-</div>
-
-<!-- CRICKET SECTION -->
 <div class="section sport-section" id="cricketSection">
-
 <h2>🏏 Cricket Leaderboard</h2>
 <div class="card">
 <table>
 <thead>
 <tr>
-<th>Team</th>
-<th>Played</th>
-<th>Wins</th>
-<th>Points</th>
-<th>NRR</th>
+<th>Team</th><th>Played</th><th>Wins</th><th>Points</th><th>NRR</th>
 </tr>
 </thead>
 <tbody id="tableBody"></tbody>
 </table>
 </div>
-
 <h2>📊 Cricket Wins Chart</h2>
-<div class="card">
-<canvas id="chart"></canvas>
+<div class="card"><canvas id="chart"></canvas></div>
 </div>
 
-</div>
-
-<!-- VOLLEYBALL TEAMS -->
 <div class="section sport-section" id="volleyTeams" style="display:none;">
-
 <h2>🏐 Volleyball Teams & Players</h2>
-
 <div class="teams">
 <div class="team-card">
 <h3>Warriors</h3>
-<div class="players" id="warriorsPlayers"></div>
+<div class="players" id="volleyWarriors"></div>
 </div>
-
 <div class="team-card">
 <h3>Titans</h3>
-<div class="players" id="titansPlayers"></div>
+<div class="players" id="volleyTitans"></div>
+</div>
 </div>
 </div>
 
-</div>
-<!-- VOLLEYBALL SECTION -->
 <div class="section sport-section" id="volleySection" style="display:none;">
-
 <h2>🏐 Volleyball Leaderboard</h2>
 <div class="card">
 <table>
 <thead>
 <tr>
-<th>Team</th>
-<th>Matches Played</th>
-<th>Wins</th>
+<th>Team</th><th>Matches Played</th><th>Wins</th>
 </tr>
 </thead>
 <tbody id="volleyTable"></tbody>
 </table>
 </div>
-
 <h2>📊 Volleyball Wins Chart</h2>
-<div class="card">
-<canvas id="volleyChart"></canvas>
-</div>
-
+<div class="card"><canvas id="volleyChart"></canvas></div>
 </div>
 
 <!-- ADMIN PANEL -->
 <div class="section" id="matches" style="display:none;">
 <h2>📝 Admin Panel</h2>
 <div class="card">
-
 <h3>🏏 Cricket Match Entry</h3>
-
 <div class="form-grid">
-
 <div class="team-form">
 <h4>Warriors</h4>
-<label>Runs</label>
-<input type="number" id="runsA">
-<label>Overs</label>
-<input type="number" step="0.1" id="oversA">
+<label>Runs</label><input type="number" id="runsA">
+<label>Overs</label><input type="number" step="0.1" id="oversA">
 </div>
-
 <div class="team-form">
 <h4>Titans</h4>
-<label>Runs</label>
-<input type="number" id="runsB">
-<label>Overs</label>
-<input type="number" step="0.1" id="oversB">
+<label>Runs</label><input type="number" id="runsB">
+<label>Overs</label><input type="number" step="0.1" id="oversB">
 </div>
-
 </div>
-
 <button class="btn" onclick="addCricket()">Save Cricket Match</button>
-
 <hr style="margin:30px 0;">
-
 <h3>Volleyball Match</h3>
-<select id="vWinner">
-<option value="A">Warriors</option>
-<option value="B">Titans</option>
-</select>
+<select id="vWinner"><option value="A">Warriors</option><option value="B">Titans</option></select>
 <button class="btn" onclick="addVolley()">Save Volleyball</button>
-
 <hr style="margin:30px 0;">
-
 <h3>Add Player</h3>
-<select id="playerSport">
-<option value="cricket">🏏 Cricket</option>
-<option value="volleyball">🏐 Volleyball</option>
-</select>
+<select id="playerSport"><option value="cricket">🏏 Cricket</option><option value="volleyball">🏐 Volleyball</option></select>
 <input type="text" id="playerName" placeholder="Player Name">
 <div class="team-toggle">
 <button type="button" class="team-btn active" onclick="selectTeam('A',this)">Warriors</button>
 <button type="button" class="team-btn" onclick="selectTeam('B',this)">Titans</button>
 </div>
-
 <input type="hidden" id="playerTeam" value="A">
 <label><input type="checkbox" id="isCaptain"> Captain</label>
 <input type="file" id="playerImage">
 <button class="btn" onclick="addPlayer()">Add Player</button>
 <hr style="margin:30px 0;">
-<button class="btn" style="background:#ef4444;" onclick="resetLeague()">
-Reset League
-</button>
-
+<button class="btn" style="background:#ef4444;" onclick="resetLeague()">Reset League</button>
 </div>
 </div>
 
-<footer>
-© 2026 Pavan Premier League
-</footer>
+<footer>© 2026 Pavan Premier League</footer>
 
 <div id="loginModal">
 <div class="modal-content">
@@ -416,339 +200,111 @@ Reset League
 </div>
 
 <script>
-
+// INITIAL SETUP
 const PASSWORD="admin123";
 const DEFAULT_IMG="https://cdn-icons-png.flaticon.com/512/149/149071.png";
 let isAdmin=false;
 
 let data=JSON.parse(localStorage.getItem("leagueData"))||{
-cricket:{A:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0},
-B:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0}},
-volley:{
-A:{played:0,wins:0},
-B:{played:0,wins:0}
-},
-players:{cricket:{A:[],B:[]},volleyball:{A:[],B:[]}}
-};
-
-function save(){localStorage.setItem("leagueData",JSON.stringify(data));}
-
-function nrr(t){
-if(t.oversFaced > 0 && t.oversBowled > 0){
-return ((t.runsFor/t.oversFaced) - (t.runsAgainst/t.oversBowled)).toFixed(2);
-}
-return "0.00";
-}
-
-function addCricket(){
-if(!isAdmin)return alert("Login First");
-let rA=+runsA.value,oA=+oversA.value,rB=+runsB.value,oB=+oversB.value;
-data.cricket.A.played++;data.cricket.B.played++;
-data.cricket.A.runsFor+=rA;data.cricket.A.oversFaced+=oA;
-data.cricket.A.runsAgainst+=rB;data.cricket.A.oversBowled+=oB;
-data.cricket.B.runsFor+=rB;data.cricket.B.oversFaced+=oB;
-data.cricket.B.runsAgainst+=rA;data.cricket.B.oversBowled+=oA;
-if(rA > rB){
-    data.cricket.A.wins++;
-    data.cricket.A.points += 2;
-}
-else if(rB > rA){
-    data.cricket.B.wins++;
-    data.cricket.B.points += 2;
-}
-else{
-    data.cricket.A.points += 1;
-    data.cricket.B.points += 1;
-}
-save();update();
-}
-
-function addVolley(){
-if(!isAdmin)return alert("Login First");
-
-let winner = vWinner.value;
-let loser = winner === "A" ? "B" : "A";
-
-data.volley[winner].wins++;
-data.volley[winner].played++;
-data.volley[loser].played++;
-
-save();
-update();
-}
-
-function addPlayer(){
-if(!isAdmin)return alert("Login First");
-
-let sport=playerSport.value;
-let team=playerTeam.value;
-let name=playerName.value;
-let captain=isCaptain.checked;
-let file=playerImage.files[0];
-
-if(!name)return alert("Enter Name");
-
-let max=sport==="cricket"?11:6;
-if(data.players[sport][team].length>=max)
-return alert("Max "+max+" players allowed");
-
-let reader=new FileReader();
-reader.onload=e=>savePlayer(e.target.result);
-if(file)reader.readAsDataURL(file);
-else savePlayer(DEFAULT_IMG);
-
-function savePlayer(img){
-if(captain)data.players[sport][team].forEach(p=>p.captain=false);
-data.players[sport][team].push({name,image:img,captain});
-save();renderPlayers();
-}
-}
-
-function renderPlayers(){
-let sport=viewSport.value;
-warriorsPlayers.innerHTML="";
-titansPlayers.innerHTML="";
-
-data.players[sport].A.forEach((p,i)=>{
-warriorsPlayers.innerHTML+=playerCard(p,sport,"A",i);
-});
-data.players[sport].B.forEach((p,i)=>{
-titansPlayers.innerHTML+=playerCard(p,sport,"B",i);
-});
-}
-
-function playerCard(p,sport,team,i){
-return `<div class="player">
-${p.captain?'<div class="captain">👑 Captain</div>':''}
-<img src="${p.image||DEFAULT_IMG}">
-<p>${p.name}</p>
-${isAdmin?`<button class="delete-btn" onclick="deletePlayer('${sport}','${team}',${i})">Delete</button>`:''}
-</div>`;
-}
-
-function deletePlayer(sport,team,i){
-data.players[sport][team].splice(i,1);
-save();renderPlayers();
-}
-
-function update(){
-let html="";
-["A","B"].forEach(t=>{
-let team=data.cricket[t];
-html+=`<tr>
-<td>${t=="A"?"Warriors":"Titans"}</td>
-<td>${team.played}</td>
-<td>${team.wins}</td>
-<td>${team.points}</td>
-<td>${nrr(team)}</td>
-</tr>`;
-});
-tableBody.innerHTML=html;
-let volleyHTML = "";
-
-["A","B"].forEach(t => {
-
-  let team = data.volley[t] || { played: 0, wins: 0 };
-
-  volleyHTML += `
-    <tr>
-      <td>${t === "A" ? "Warriors" : "Titans"}</td>
-      <td>${team.played ?? 0}</td>
-      <td>${team.wins ?? 0}</td>
-    </tr>
-  `;
-});
-
-document.getElementById("volleyTable").innerHTML = volleyHTML;
-drawCharts();
-renderPlayers();
-}
-
-let cricketChart;
-let volleyballChart;
-
-function drawCharts(){
-
-// CRICKET CHART
-const cricketCanvas = document.getElementById("chart");
-if(cricketCanvas){
-
-    if(cricketChart) cricketChart.destroy();
-
-    cricketChart = new Chart(cricketCanvas,{
-        type:'bar',
-        data:{
-            labels:["Warriors","Titans"],
-            datasets:[{
-                label:"Cricket Wins",
-                data:[data.cricket.A.wins, data.cricket.B.wins],
-                backgroundColor:["#38bdf8","#2563eb"]
-            }]
-        }
-    });
-}
-
-
-// VOLLEYBALL CHART
-const volleyCanvas = document.getElementById("volleyChart");
-if(volleyCanvas){
-
-    if(volleyballChart) volleyballChart.destroy();
-
-    volleyballChart = new Chart(volleyCanvas,{
-        type:'bar',
-        data:{
-            labels:["Warriors","Titans"],
-            datasets:[{
-                label:"Volleyball Wins",
-                data:[data.volley.A.wins, data.volley.B.wins],
-                backgroundColor:["#f97316","#ea580c"]
-            }]
-        }
-    });
-}
-
-}
-
-function openLogin(){loginModal.style.display="flex";}
-function login(){
-if(adminPass.value===PASSWORD){
-isAdmin=true;
-loginModal.style.display="none";
-
-document.getElementById("matches").style.display="block";
-document.getElementById("loginNav").style.display="none";
-document.getElementById("logoutNav").style.display="inline-block";
-
-alert("Admin Logged In");
-renderPlayers();
-}else{
-alert("Wrong Password");
-}
-}
-function logout(){
-
-    isAdmin = false;
-
-    document.getElementById("matches").style.display="none";
-
-    document.getElementById("logoutNav").style.display="none";
-    document.getElementById("loginNav").style.display="inline-block";
-
-    alert("Logged Out Successfully");
-
-    renderPlayers();
-}
-
-function scrollToSection(id){
-document.getElementById(id).scrollIntoView({behavior:'smooth'});
-}
-
-update();
-
-function selectTeam(team,btn){
-
-document.getElementById("playerTeam").value = team;
-
-// remove active from all
-document.querySelectorAll(".team-btn").forEach(b=>{
-b.classList.remove("active");
-});
-
-// add active to clicked
-btn.classList.add("active");
-
-}
-
-function selectSport(sport,btn){
-
-document.getElementById("viewSport").value = sport;
-
-// remove active from all
-document.querySelectorAll(".sport-btn").forEach(b=>{
-b.classList.remove("active");
-});
-
-// add active to clicked
-btn.classList.add("active");
-
-renderPlayers();
-}
-function switchGame(game, btn){
-
-// remove active button style
-document.querySelectorAll(".main-btn").forEach(b=>{
-    b.classList.remove("active");
-});
-btn.classList.add("active");
-
-if(game==="cricket"){
-
-    // SHOW CRICKET
-    document.getElementById("cricketTeams").style.display="block";
-    document.getElementById("cricketSection").style.display="block";
-
-    // HIDE VOLLEYBALL
-    document.getElementById("volleyTeams").style.display="none";
-    document.getElementById("volleySection").style.display="none";
-
-    document.getElementById("viewSport").value="cricket";
-
-}else{
-
-    // SHOW VOLLEYBALL
-    document.getElementById("volleyTeams").style.display="block";
-    document.getElementById("volleySection").style.display="block";
-
-    // HIDE CRICKET
-    document.getElementById("cricketTeams").style.display="none";
-    document.getElementById("cricketSection").style.display="none";
-
-    document.getElementById("viewSport").value="volleyball";
-}
-
-renderPlayers();
-setTimeout(drawCharts,200);
-}
-
-document.querySelectorAll(".main-btn").forEach(b=>{
-    b.classList.remove("active");
-});
-btn.classList.add("active");
-
-// Show Teams section
-document.querySelector(".teams").closest(".section").style.display="block";
-
-// Show selected sport section
-if(game==="cricket"){
-    document.getElementById("cricketSection").style.display="block";
-    document.getElementById("volleySection").style.display="none";
-}else{
-    document.getElementById("cricketSection").style.display="none";
-    document.getElementById("volleySection").style.display="block";
-}
-
-// Redraw charts after visible
-setTimeout(drawCharts,200);
-
-function resetLeague(){
-    if(!isAdmin) return;
-
-    if(confirm("Are you sure you want to reset all data?")){
-        localStorage.removeItem("leagueData");
-        data = {
-cricket:{A:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0},
-B:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0}},
+cricket:{A:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0},B:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0}},
 volley:{A:{played:0,wins:0},B:{played:0,wins:0}},
 players:{cricket:{A:[],B:[]},volleyball:{A:[],B:[]}}
 };
 
-save();
-update();
-    }
+function save(){localStorage.setItem("leagueData",JSON.stringify(data));}
+function nrr(t){return (t.oversFaced && t.oversBowled) ? ((t.runsFor/t.oversFaced)-(t.runsAgainst/t.oversBowled)).toFixed(2) : "0.00";}
+
+// ADD MATCHES
+function addCricket(){
+if(!isAdmin) return alert("Login First");
+let rA=+runsA.value,oA=+oversA.value,rB=+runsB.value,oB=+oversB.value;
+data.cricket.A.played++;data.cricket.B.played++;
+data.cricket.A.runsFor+=rA;data.cricket.A.oversFaced+=oA;data.cricket.A.runsAgainst+=rB;data.cricket.A.oversBowled+=oB;
+data.cricket.B.runsFor+=rB;data.cricket.B.oversFaced+=oB;data.cricket.B.runsAgainst+=rA;data.cricket.B.oversBowled+=oA;
+if(rA>rB){data.cricket.A.wins++;data.cricket.A.points+=2;} 
+else if(rB>rA){data.cricket.B.wins++;data.cricket.B.points+=2;} 
+else{data.cricket.A.points+=1;data.cricket.B.points+=1;}
+save();update();
 }
 
-</script>
+function addVolley(){
+if(!isAdmin) return alert("Login First");
+let winner=vWinner.value,loser=winner==="A"?"B":"A";
+data.volley[winner].wins++;data.volley[winner].played++;data.volley[loser].played++;
+save();update();
+}
 
+// PLAYER MANAGEMENT
+function addPlayer(){
+if(!isAdmin)return alert("Login First");
+let sport=playerSport.value,team=playerTeam.value,name=playerName.value.trim(),captain=isCaptain.checked,file=playerImage.files[0];
+if(!name)return alert("Enter Name");
+let max=sport==="cricket"?11:6;
+if(data.players[sport][team].length>=max)return alert("Max "+max+" players allowed for this team");
+let reader=new FileReader();
+reader.onload=e=>savePlayer(e.target.result);
+if(file) reader.readAsDataURL(file);
+else savePlayer(DEFAULT_IMG);
+
+function savePlayer(img){
+if(captain) data.players[sport][team].forEach(p=>p.captain=false);
+data.players[sport][team].push({name,image:img,captain});
+save();renderPlayers();
+playerName.value="";playerImage.value="";isCaptain.checked=false;
+}
+}
+
+function renderPlayers(){
+let sport=document.getElementById("viewSport").value;
+let warriorsContainer=sport==="cricket"?document.getElementById("cricketWarriors"):document.getElementById("volleyWarriors");
+let titansContainer=sport==="cricket"?document.getElementById("cricketTitans"):document.getElementById("volleyTitans");
+warriorsContainer.innerHTML="";titansContainer.innerHTML="";
+data.players[sport].A.forEach((p,i)=>warriorsContainer.innerHTML+=`<div class="player">${p.captain?'<div class="captain">👑 Captain</div>':''}<img src="${p.image||DEFAULT_IMG}"><p>${p.name}</p>${isAdmin?`<button class="delete-btn" onclick="deletePlayer('${sport}','A',${i})">Delete</button>`:''}</div>`);
+data.players[sport].B.forEach((p,i)=>titansContainer.innerHTML+=`<div class="player">${p.captain?'<div class="captain">👑 Captain</div>':''}<img src="${p.image||DEFAULT_IMG}"><p>${p.name}</p>${isAdmin?`<button class="delete-btn" onclick="deletePlayer('${sport}','B',${i})">Delete</button>`:''}</div>`);
+}
+
+function deletePlayer(sport,team,i){data.players[sport][team].splice(i,1);save();renderPlayers();}
+
+// UPDATE LEADERBOARDS
+function update(){
+let html="";["A","B"].forEach(t=>{let team=data.cricket[t];html+=`<tr><td>${t==="A"?"Warriors":"Titans"}</td><td>${team.played}</td><td>${team.wins}</td><td>${team.points}</td><td>${nrr(team)}</td></tr>`;});
+document.getElementById("tableBody").innerHTML=html;
+let volleyHTML="";["A","B"].forEach(t=>{let team=data.volley[t];volleyHTML+=`<tr><td>${t==="A"?"Warriors":"Titans"}</td><td>${team.played}</td><td>${team.wins}</td></tr>`;});
+document.getElementById("volleyTable").innerHTML=volleyHTML;
+drawCharts();renderPlayers();
+}
+
+// CHARTS
+let cricketChart,volleyballChart;
+function drawCharts(){
+const cricketCanvas=document.getElementById("chart");
+if(cricketCanvas){if(cricketChart) cricketChart.destroy();cricketChart=new Chart(cricketCanvas,{type:'bar',data:{labels:["Warriors","Titans"],datasets:[{label:"Cricket Wins",data:[data.cricket.A.wins,data.cricket.B.wins],backgroundColor:["#38bdf8","#2563eb"]}]}});}
+const volleyCanvas=document.getElementById("volleyChart");
+if(volleyCanvas){if(volleyballChart) volleyballChart.destroy();volleyballChart=new Chart(volleyCanvas,{type:'bar',data:{labels:["Warriors","Titans"],datasets:[{label:"Volleyball Wins",data:[data.volley.A.wins,data.volley.B.wins],backgroundColor:["#f97316","#ea580c"]}]}});}
+}
+
+// ADMIN LOGIN/LOGOUT
+function openLogin(){document.getElementById("loginModal").classList.add("show");}
+function login(){if(adminPass.value===PASSWORD){isAdmin=true;document.getElementById("loginModal").classList.remove("show");document.getElementById("matches").style.display="block";document.getElementById("loginNav").style.display="none";document.getElementById("logoutNav").style.display="inline-block";alert("Admin Logged In");renderPlayers();}else alert("Wrong Password");}
+function logout(){isAdmin=false;document.getElementById("matches").style.display="none";document.getElementById("logoutNav").style.display="none";document.getElementById("loginNav").style.display="inline-block";alert("Logged Out Successfully");renderPlayers();}
+
+// SCROLL
+function scrollToSection(id){document.getElementById(id).scrollIntoView({behavior:'smooth'});}
+
+// TEAM SELECT
+function selectTeam(team,btn){document.getElementById("playerTeam").value=team;document.querySelectorAll(".team-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");}
+
+// SWITCH SPORT
+function switchGame(game,btn){
+document.querySelectorAll(".main-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");
+if(game==="cricket"){document.getElementById("cricketTeams").style.display="block";document.getElementById("cricketSection").style.display="block";document.getElementById("volleyTeams").style.display="none";document.getElementById("volleySection").style.display="none";document.getElementById("viewSport").value="cricket";document.getElementById("cricketTeams").classList.add("active");document.getElementById("cricketSection").classList.add("active");document.getElementById("volleyTeams").classList.remove("active");document.getElementById("volleySection").classList.remove("active");}
+else{document.getElementById("volleyTeams").style.display="block";document.getElementById("volleySection").style.display="block";document.getElementById("cricketTeams").style.display="none";document.getElementById("cricketSection").style.display="none";document.getElementById("viewSport").value="volleyball";document.getElementById("volleyTeams").classList.add("active");document.getElementById("volleySection").classList.add("active");document.getElementById("cricketTeams").classList.remove("active");document.getElementById("cricketSection").classList.remove("active");}
+renderPlayers();setTimeout(drawCharts,200);
+}
+
+// RESET LEAGUE
+function resetLeague(){if(!isAdmin)return;if(confirm("Are you sure you want to reset all data?")){localStorage.removeItem("leagueData");data={cricket:{A:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0},B:{played:0,wins:0,points:0,runsFor:0,oversFaced:0,runsAgainst:0,oversBowled:0}},volley:{A:{played:0,wins:0},B:{played:0,wins:0}},players:{cricket:{A:[],B:[]},volleyball:{A:[],B:[]}}};save();update();}}
+update();
+</script>
 </body>
 </html>
